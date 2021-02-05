@@ -58,6 +58,7 @@ struct ListNode
         }
         val = head->val;
         next = head->next;
+        delete head;
     }
 };
 
