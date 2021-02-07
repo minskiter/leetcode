@@ -1,32 +1,39 @@
 #include "header.h"
 
-class Solution {
+class Solution
+{
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        if (obstacleGrid.size()==0) return 0;
-        vector<vector<int>> paths(2,vector<int>(obstacleGrid[0].size(),0));
-        for (int i=0;i<obstacleGrid.size();++i){
-            for (int j=0;j<obstacleGrid[0].size();++j){
-                paths[i&1][j]=(i==0 && j==0 && obstacleGrid[i][j]==0);
-                if (obstacleGrid[i][j]==0){
-                    if (i>0) paths[i&1][j]+=paths[(i-1)&1][j];
-                    if (j>0) paths[i&1][j]+=paths[i&1][j-1];
+    int minPathSum(vector<vector<int>> &grid)
+    {
+        vector<vector<int>> mins(2, vector<int>(grid[0].size(), INT_MAX / 2));
+        for (int i = 0; i < grid.size(); ++i)
+        {
+            for (int j = 0; j < grid[0].size(); ++j)
+            {
+                if (i == 0 && j == 0)
+                    mins[i][j] = grid[i][j];
+                else
+                {
+                    mins[i & 1][j] = INT_MAX / 2;
+                    if (i > 0)
+                        mins[i & 1][j] = min(mins[i & 1][j], mins[(i - 1) & 1][j] + grid[i][j]);
+                    if (j > 0)
+                    {
+                        mins[i & 1][j] = min(mins[i & 1][j], mins[i & 1][j - 1] + grid[i][j]);
+                    }
                 }
             }
         }
-        return paths[(obstacleGrid.size()-1)&1][obstacleGrid[0].size()-1];
+        return mins[(grid.size()-1)&1][grid[0].size()-1];
     }
 };
 
-int main(){
-    vector<vector<int>> obstacleGrid = {
-        {0,0,0,0},
-        {0,1,0,0},
-        {0,0,0,0},
-        {0,0,1,0},
-        {0,0,0,0}
+int main()
+{
+    vector<vector<int>> grid{
+        {1,2,3},{4,5,6}
     };
     Solution s;
-    cout << s.uniquePathsWithObstacles(obstacleGrid) << endl;
+    cout << s.minPathSum(grid) << endl;
     return 0;
 }

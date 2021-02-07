@@ -3,37 +3,84 @@
 class Solution
 {
 public:
-    int minPathSum(vector<vector<int>> &grid)
+    bool isNumber(string s)
     {
-        vector<vector<int>> mins(2, vector<int>(grid[0].size(), INT_MAX / 2));
-        for (int i = 0; i < grid.size(); ++i)
+        bool sign = false;
+        if (s[0] == '-' || s[0] == '+')
         {
-            for (int j = 0; j < grid[0].size(); ++j)
+            sign = true;
+        }
+        bool dot = false;
+        bool e = false;
+        bool needNumber = true;
+        for (int i = sign; i < s.size(); ++i)
+        {
+            if (s[i] == '-' || s[i] == '+')
             {
-                if (i == 0 && j == 0)
-                    mins[i][j] = grid[i][j];
-                else
+                return false;
+            }
+            else if (s[i] == 'e' || s[i] == 'E')
+            {
+                if (e || needNumber)
                 {
-                    mins[i & 1][j] = INT_MAX / 2;
-                    if (i > 0)
-                        mins[i & 1][j] = min(mins[i & 1][j], mins[(i - 1) & 1][j] + grid[i][j]);
-                    if (j > 0)
-                    {
-                        mins[i & 1][j] = min(mins[i & 1][j], mins[i & 1][j - 1] + grid[i][j]);
-                    }
+                    return false;
+                }
+                e = true;
+                needNumber = true;
+                if (i + 1 >= s.size())
+                {
+                    return false;
+                }
+                if (s[i + 1] == '-' || s[i + 1] == '+')
+                {
+                    ++i;
                 }
             }
+            else if (s[i] == '.')
+            {
+                if (e || dot)
+                {
+                    return false;
+                }
+                dot = true;
+            }
+            else if (s[i] >= '0' && s[i] <= '9')
+            {
+                needNumber = false;
+            }
+            else
+            {
+                return false;
+            }
         }
-        return mins[(grid.size()-1)&1][grid[0].size()-1];
+        if (needNumber)
+        {
+            return false;
+        }
+        return true;
     }
 };
 
 int main()
 {
-    vector<vector<int>> grid{
-        {1,2,3},{4,5,6}
-    };
     Solution s;
-    cout << s.minPathSum(grid) << endl;
+    vector<string> number = {
+        "2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1", "53.5e93", "-123.456e789","0",".1","-.1","1.","005047e+6","46.e3",".2e81"};
+    vector<string> notnumber = {
+        "abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53","e",".","..2","+e","+3. e04116"};
+    for (int i = 0; i < number.size(); ++i)
+    {
+        if (!s.isNumber(number[i]))
+        {
+            cout << "error(number):" << number[i] << endl;
+        }
+    }
+    for (int i = 0; i < notnumber.size(); ++i)
+    {
+        if (s.isNumber(notnumber[i]))
+        {
+            cout << "error(notnumber):" << notnumber[i] << endl;
+        }
+    }
     return 0;
 }

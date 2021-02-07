@@ -73,15 +73,30 @@ public:
             if (i == 0)
             {
                 cout << '[';
+                if (typeid(temp[i])==typeid(string)){
+                    cout << endl;
+                }
+            }
+            if (typeid(temp[i])==typeid(string)){
+                cout << "\"";
             }
             cout << temp[i];
+            if (typeid(temp[i])==typeid(string)){
+                cout << "\"";
+            }
             if (i == temp.size() - 1)
             {
+                if (typeid(temp[i])==typeid(string)){
+                    cout << endl;
+                }
                 cout << ']';
             }
             else
-            {
+            {      
                 cout << ',';
+                if (typeid(temp[i])==typeid(string)){
+                    cout << endl;
+                }
             }
         }
     }
@@ -93,16 +108,17 @@ public:
         {
             if (i == 0)
             {
-                cout << '[';
+                cout << '[' << endl;
             }
+            cout << "  ";
             fmt::printArray(temp[i]);
             if (i == temp.size() - 1)
             {
-                cout << ']';
+                cout << endl << ']' << endl;
             }
             else
             {
-                cout << ',';
+                cout << ',' << endl;
             }
         }
     }
