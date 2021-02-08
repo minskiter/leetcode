@@ -68,11 +68,11 @@ public:
     template <typename T>
     static void printArray(vector<T> temp)
     {
+        cout << '[';
         for (int i = 0; i < temp.size(); ++i)
         {
             if (i == 0)
             {
-                cout << '[';
                 if (typeid(temp[i])==typeid(string)){
                     cout << endl;
                 }
@@ -89,7 +89,6 @@ public:
                 if (typeid(temp[i])==typeid(string)){
                     cout << endl;
                 }
-                cout << ']';
             }
             else
             {      
@@ -99,28 +98,30 @@ public:
                 }
             }
         }
+        cout << ']';
     }
 
     template <typename T>
     static void printArray2(vector<T> temp)
     {
+        cout << '[';
         for (int i = 0; i < temp.size(); ++i)
         {
-            if (i == 0)
-            {
-                cout << '[' << endl;
+            if (i==0){
+                cout << endl;
             }
             cout << "  ";
             fmt::printArray(temp[i]);
             if (i == temp.size() - 1)
             {
-                cout << endl << ']' << endl;
+                cout << endl;
             }
             else
             {
                 cout << ',' << endl;
             }
         }
+        cout << ']' << endl;
     }
 
     template <typename T>
