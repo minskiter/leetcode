@@ -131,13 +131,13 @@ public:
         int len = 0;
         while (num)
         {
-            s = s + char((num & 1) + '0');
+            s = char((num & 1) + '0')+s;
             num >>= 1;
             ++len;
         }
         while (len++ < length)
         {
-            s += "0";
+            s = "0"+s;
         }
         cout << s << endl;
     }
