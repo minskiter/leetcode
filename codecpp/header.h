@@ -11,6 +11,42 @@
 #include <iomanip>
 using namespace std;
 
+#define nullint INT_MIN
+
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    void Parse(vector<int> &tree)
+    {
+        if (tree.size() == 0)
+        {
+            return;
+        }
+        val = tree[0];
+        auto buildTree = [&tree](auto &&self, TreeNode *root, int pos) {
+            if (pos > tree.size())
+                return;
+            root->val = tree[pos - 1];
+            if ((pos << 1) <= tree.size() && tree[(pos << 1) - 1] != nullint)
+            {
+                root->left = new TreeNode();
+                self(self, root->left, pos << 1);
+            }
+            if ((pos << 1) < tree.size() && tree[pos << 1] != nullint)
+            {
+                root->right = new TreeNode();
+                self(self, root->right, (pos << 1) + 1);
+            }
+        };
+        buildTree(buildTree, this, 1);
+    }
+};
+
 struct ListNode
 {
     int val;
@@ -73,27 +109,32 @@ public:
         {
             if (i == 0)
             {
-                if (typeid(temp[i])==typeid(string)){
+                if (typeid(temp[i]) == typeid(string))
+                {
                     cout << endl;
                 }
             }
-            if (typeid(temp[i])==typeid(string)){
+            if (typeid(temp[i]) == typeid(string))
+            {
                 cout << "\"";
             }
             cout << temp[i];
-            if (typeid(temp[i])==typeid(string)){
+            if (typeid(temp[i]) == typeid(string))
+            {
                 cout << "\"";
             }
             if (i == temp.size() - 1)
             {
-                if (typeid(temp[i])==typeid(string)){
+                if (typeid(temp[i]) == typeid(string))
+                {
                     cout << endl;
                 }
             }
             else
-            {      
+            {
                 cout << ',';
-                if (typeid(temp[i])==typeid(string)){
+                if (typeid(temp[i]) == typeid(string))
+                {
                     cout << endl;
                 }
             }
@@ -107,7 +148,8 @@ public:
         cout << '[';
         for (int i = 0; i < temp.size(); ++i)
         {
-            if (i==0){
+            if (i == 0)
+            {
                 cout << endl;
             }
             cout << "  ";
@@ -131,13 +173,13 @@ public:
         int len = 0;
         while (num)
         {
-            s = char((num & 1) + '0')+s;
+            s = char((num & 1) + '0') + s;
             num >>= 1;
             ++len;
         }
         while (len++ < length)
         {
-            s = "0"+s;
+            s = "0" + s;
         }
         cout << s << endl;
     }
