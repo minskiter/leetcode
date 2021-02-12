@@ -45,6 +45,25 @@ struct TreeNode
         };
         buildTree(buildTree, this, 1);
     }
+    void PrintInorder()
+    {
+        auto printTree = [](auto &&self, TreeNode *root) {
+            if (root == nullptr)
+                return; // Important 否则编译识别不出return的类型
+            if (root->left)
+            {
+                self(self, root->left);
+            }
+            cout << root->val << ",";
+            if (root->right)
+            {
+                self(self, root->right);
+            }
+        };
+        cout << "[";
+        printTree(printTree, this);
+        cout << '\b' << "]" << endl;
+    }
 };
 
 struct ListNode
