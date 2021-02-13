@@ -49,7 +49,7 @@ struct TreeNode
     {
         auto printTree = [](auto &&self, TreeNode *root) {
             if (root == nullptr)
-                return; // Important 否则编译识别不出return的类型
+                return; // Important 否则编译识别不出lambda的类型
             if (root->left)
             {
                 self(self, root->left);
@@ -63,6 +63,69 @@ struct TreeNode
         cout << "[";
         printTree(printTree, this);
         cout << '\b' << "]" << endl;
+    }
+    int GetMax()
+    {
+        auto getMax = [](auto &&self, TreeNode *root) {
+            if (root == nullptr)
+            {
+                return 0;
+            }
+            int ans = root->val;
+            if (root->left)
+                ans = max(ans, self(self, root->left));
+            if (root->right)
+                ans = max(ans, self(self, root->right));
+            return ans;
+        };
+        return getMax(getMax, this);
+    }
+    int GetDeepth()
+    {
+        auto getMax = [](auto &&self, TreeNode *root) {
+            if (root == nullptr)
+            {
+                return 0;
+            }
+            return max(self(self, root->left), self(self, root->right)) + 1;
+        };
+        return getMax(getMax, this);
+    }
+    void PrintTree()
+    {
+        auto echo = [](auto &&self, TreeNode *root, int pos = 0) {
+            if (root == nullptr)
+            {
+                for (int i = 0; i < pos; ++i)
+                {
+                    cout << '\t';
+                }
+                cout << '*' << endl;
+                return;
+            }
+            self(self, root->right, pos + 1);
+            for (int i = 0; i < pos; ++i)
+            {
+                cout << '\t';
+            }
+            cout << root->val << endl;
+            self(self, root->left, pos + 1);
+        };
+        echo(echo, this);
+    }
+    vector<int> ToVector(){
+        int deepth = GetDeepth();
+        vector<int> tree((1<<deepth)-1,nullint);
+        auto toVector = [&tree](auto && self,TreeNode * root,int index){
+            if (root==nullptr){
+                return;
+            }
+            tree[index-1]=root->val;
+            self(self,root->left,index*2);
+            self(self,root->right,index*2+1);
+        };
+        toVector(toVector,this,1);
+        return tree;
     }
 };
 
@@ -137,7 +200,12 @@ public:
             {
                 cout << "\"";
             }
-            cout << temp[i];
+            if (typeid(temp[i])==typeid(int) && temp[i]==nullint){
+                cout << "null";
+            }else
+            {
+                cout << temp[i];
+            }
             if (typeid(temp[i]) == typeid(string))
             {
                 cout << "\"";
