@@ -113,18 +113,20 @@ struct TreeNode
         };
         echo(echo, this);
     }
-    vector<int> ToVector(){
+    vector<int> ToVector()
+    {
         int deepth = GetDeepth();
-        vector<int> tree((1<<deepth)-1,nullint);
-        auto toVector = [&tree](auto && self,TreeNode * root,int index){
-            if (root==nullptr){
+        vector<int> tree((1 << deepth) - 1, nullint);
+        auto toVector = [&tree](auto &&self, TreeNode *root, int index) {
+            if (root == nullptr)
+            {
                 return;
             }
-            tree[index-1]=root->val;
-            self(self,root->left,index*2);
-            self(self,root->right,index*2+1);
+            tree[index - 1] = root->val;
+            self(self, root->left, index * 2);
+            self(self, root->right, index * 2 + 1);
         };
-        toVector(toVector,this,1);
+        toVector(toVector, this, 1);
         return tree;
     }
 };
@@ -180,6 +182,22 @@ struct ListNode
     }
 };
 
+class Node
+{
+public:
+    int val;
+    Node *left;
+    Node *right;
+    Node *next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node *_left, Node *_right, Node *_next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+
 class fmt
 {
 public:
@@ -200,9 +218,11 @@ public:
             {
                 cout << "\"";
             }
-            if (typeid(temp[i])==typeid(int) && temp[i]==nullint){
+            if (typeid(temp[i]) == typeid(int) && temp[i] == nullint)
+            {
                 cout << "null";
-            }else
+            }
+            else
             {
                 cout << temp[i];
             }
