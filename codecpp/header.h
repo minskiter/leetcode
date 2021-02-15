@@ -218,14 +218,7 @@ public:
             {
                 cout << "\"";
             }
-            if (typeid(temp[i]) == typeid(int) && temp[i] == nullint)
-            {
-                cout << "null";
-            }
-            else
-            {
-                cout << temp[i];
-            }
+            cout << temp[i];
             if (typeid(temp[i]) == typeid(string))
             {
                 cout << "\"";
@@ -240,10 +233,10 @@ public:
             else
             {
                 cout << ',';
-                if (typeid(temp[i]) == typeid(string))
-                {
-                    cout << endl;
-                }
+                // if (typeid(temp[i]) == typeid(string))
+                // {
+                //     cout << endl;
+                // }
             }
         }
         cout << ']';
