@@ -9,6 +9,8 @@
 #include <stack>
 #include <queue>
 #include <iomanip>
+#include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
 #define nullint INT_MIN
@@ -182,6 +184,7 @@ struct ListNode
     }
 };
 
+#ifndef NeighborNode
 class Node
 {
 public:
@@ -197,6 +200,75 @@ public:
     Node(int _val, Node *_left, Node *_right, Node *_next)
         : val(_val), left(_left), right(_right), next(_next) {}
 };
+#else
+class Node
+{
+public:
+    int val;
+    vector<Node *> neighbors;
+    Node()
+    {
+        val = 0;
+        neighbors = vector<Node *>();
+    }
+    Node(int _val)
+    {
+        val = _val;
+        neighbors = vector<Node *>();
+    }
+    Node(int _val, vector<Node *> _neighbors)
+    {
+        val = _val;
+        neighbors = _neighbors;
+    }
+    void Parse(vector<vector<int>> map)
+    {
+        Node *nodes[101] = {nullptr};
+        for (int i = 0; i < map.size(); ++i)
+        {
+            if (i == 0)
+            {
+                val = 1;
+                nodes[i] = this;
+                
+            }
+            else
+                nodes[i] = new Node(i + 1);
+        }
+        for (int i = 0; i < map.size(); ++i)
+        {
+            for (int j = 0; j < map[i].size(); ++j)
+            {
+                nodes[i]->neighbors.push_back(nodes[map[i][j] - 1]);
+            }
+        }
+    }
+    void Print()
+    {
+        vector<bool> vis(101, false);
+        auto dfs = [&vis](auto &&self, Node *p) {
+            if (p == nullptr || vis[p->val])
+                return;
+            vis[p->val] = true;
+            cout << "[" << p << ":" << p->val << "]:";
+            for (int i = 0; i < p->neighbors.size(); ++i)
+            {
+                if (i != 0)
+                    cout << ',';
+
+                cout << p->neighbors[i] << "-";
+                cout << p->neighbors[i]->val;
+            }
+            cout << endl;
+            for (int i = 0; i < p->neighbors.size(); ++i)
+            {
+                self(self, p->neighbors[i]);
+            }
+        };
+        dfs(dfs, this);
+    }
+};
+#endif
 
 class fmt
 {
@@ -207,13 +279,6 @@ public:
         cout << '[';
         for (int i = 0; i < temp.size(); ++i)
         {
-            if (i == 0)
-            {
-                if (typeid(temp[i]) == typeid(string))
-                {
-                    cout << endl;
-                }
-            }
             if (typeid(temp[i]) == typeid(string))
             {
                 cout << "\"";
@@ -225,18 +290,10 @@ public:
             }
             if (i == temp.size() - 1)
             {
-                if (typeid(temp[i]) == typeid(string))
-                {
-                    cout << endl;
-                }
             }
             else
             {
                 cout << ',';
-                // if (typeid(temp[i]) == typeid(string))
-                // {
-                //     cout << endl;
-                // }
             }
         }
         cout << ']';
