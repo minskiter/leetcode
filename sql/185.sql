@@ -1,0 +1,1 @@
+SELECT Department.Name Department,Employee.Name Employee,Salary from Department,Employee where Department.Id=Employee.DepartmentId and Salary in (select distinct top 3 Salary from Employee e where e.DepartmentId=Department.Id)

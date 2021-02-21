@@ -1,0 +1,1 @@
+select Email from Person  GROUP by Email HAVING Count(Email)>1 Order by Email 
