@@ -16,6 +16,26 @@ inline const pair<Ty1, Ty2> operator-(const pair<Ty1, Ty2>&p1, const pair<Ty1, T
 }
 
 // Solution Here
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char,char> mapper1;
+        unordered_map<char,char> mapper2;
+        for (int i=0;i<s.size();++i){
+            if (mapper1.find(s[i])==mapper1.end()){
+                mapper1[s[i]]=t[i];
+            }else{
+                if (mapper1[s[i]]!=t[i]) return false;
+            }
+            if (mapper2.find(s[i])==mapper2.end()){
+                mapper2[s[i]]=t[i];
+            }else{
+                if (mapper2[s[i]]!=t[i]) return false;
+            }
+        }
+        return true;
+    }
+};
 
 int main()
 {
