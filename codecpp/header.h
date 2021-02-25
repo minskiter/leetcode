@@ -358,3 +358,17 @@ public:
         cout << s << endl;
     }
 };
+
+template <typename T, typename V>
+ostream &operator<<(ostream &output, const pair<T, V> &p)
+{
+    output << '(' << p.first << ',' << p.second << ')';
+    return output;
+}
+
+template <typename T>
+ostream &operator<<(ostream &output, const vector<T> &p)
+{
+    fmt::printArray(p);
+    return output;
+}
