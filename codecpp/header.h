@@ -12,6 +12,7 @@
 #include <list>
 #include <unordered_set>
 #include <unordered_map>
+#include <sstream>
 using namespace std;
 
 #define nullint INT_MIN
