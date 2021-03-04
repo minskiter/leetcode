@@ -142,7 +142,7 @@ struct ListNode
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
-    void Print()
+    ListNode *Print()
     {
         ListNode *head = this;
         while (head != nullptr)
@@ -158,13 +158,12 @@ struct ListNode
                 cout << endl;
             }
         }
+        return this;
     }
-    void Parse(vector<int> &a)
+    ListNode *Parse(vector<int> &a)
     {
         if (a.size() == 0)
-        {
-            return;
-        }
+            return nullptr;
         ListNode *head = nullptr;
         ListNode *p = nullptr;
         for (int i = 0; i < a.size(); ++i)
@@ -183,6 +182,7 @@ struct ListNode
         val = head->val;
         next = head->next;
         delete head;
+        return this;
     }
 };
 
