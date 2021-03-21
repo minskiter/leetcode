@@ -13,6 +13,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <sstream>
+#include <numeric>
 using namespace std;
 
 #define nullint INT_MIN
