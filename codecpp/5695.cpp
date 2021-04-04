@@ -61,7 +61,7 @@ public:
         {
             for (int j = i + 1; j < nums.size(); ++j)
             {
-                auto temp = vector<int>{gcd(nums[i], nums[j]), i, j};
+                vector<int> temp = {gcd(nums[i], nums[j]), i, j};
                 gcdarr.emplace_back(temp);
             }
         }
