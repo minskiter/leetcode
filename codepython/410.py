@@ -9,8 +9,8 @@ import heapq
 class Solution:
     def splitArray(self, nums: List[int], m: int) -> int:
         left = 0
-        right = 1 << 31
-        mininum = sum(nums)
+        right = sum(nums)
+        mininum = right
         while left <= right:
             mid = left+(right-left)//2
             canSplit = True
